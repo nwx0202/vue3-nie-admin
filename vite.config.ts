@@ -1,5 +1,5 @@
 import vue from '@vitejs/plugin-vue';
-import {type ConfigEnv, loadEnv, defineConfig} from 'vite';
+import {type ConfigEnv, loadEnv, defineConfig, UserConfig} from 'vite';
 import {resolve} from 'path';
 
 import AutoImport from 'unplugin-auto-import/vite';
@@ -13,7 +13,7 @@ import {createSvgIconsPlugin} from 'vite-plugin-svg-icons';
 
 import UnoCSS from 'unocss/vite';
 
-export default defineConfig(({mode}: ConfigEnv) => {
+export default defineConfig(({mode}: ConfigEnv): UserConfig => {
   const env = loadEnv(mode, process.cwd());
 
   return {
@@ -69,10 +69,22 @@ export default defineConfig(({mode}: ConfigEnv) => {
       // css预处理器
       preprocessorOptions: {
         scss: {
-          javascriptEnabled: true,
           additionalData: `@use "@/styles/variables.scss" as *;`
         }
       },
-    }
+    },
+    server: {
+      host: '0.0.0.0',
+      port: Number(env.VITE_PORT),
+      open: true,
+      // 反向代理解决跨域
+      proxy: {
+        [env.VITE_APP_BASE_API]: {
+          target: 'http://vapi.youlai.tech',
+          changeOrigin: true,
+          rewrite: path => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), '')
+        }
+      }
+    },
   };
 });

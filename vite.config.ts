@@ -11,12 +11,15 @@ import IconsResolver from 'unplugin-icons/resolver';
 
 import {createSvgIconsPlugin} from 'vite-plugin-svg-icons';
 
+import UnoCSS from 'unocss/vite';
+
 export default defineConfig(({mode}: ConfigEnv) => {
   const env = loadEnv(mode, process.cwd());
 
   return {
     plugins: [
       vue(),
+      UnoCSS({}),
       AutoImport({
         eslintrc: {
           // 是否自动生成eslint规则，建议生成之后设置false
@@ -61,6 +64,15 @@ export default defineConfig(({mode}: ConfigEnv) => {
       alias: {
         "@": resolve(__dirname, 'src'),
       }
+    },
+    css: {
+      // css预处理器
+      preprocessorOptions: {
+        scss: {
+          javascriptEnabled: true,
+          additionalData: `@use "@/styles/variables.scss" as *;`
+        }
+      },
     }
   };
 });

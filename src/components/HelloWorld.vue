@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
+import variables from '@/styles/variables.module.scss';
+
+console.log(variables.bgColor);
 
 defineProps<{ msg: string }>()
 
@@ -25,9 +28,11 @@ const count = ref(0)
 
     <el-button type="info"><svg-icon icon-class="kanrenao"/>SVG本地图标</el-button>
   </div>
+
+  <div style="width: 100px; height: 100px;" :style="{'background-color': variables.bgColor}"></div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .read-the-docs {
   color: #888;
 }

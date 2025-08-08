@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueuse/core": "^13.6.0",
     "axios": "^1.11.0",
     "element-plus": "^2.10.5",
     "pinia": "^3.0.3",
@@ -30,5 +31,11 @@
     "vite": "^7.0.4",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue-tsc": "^2.2.12"
-  }
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "repository": "",
+  "author": "聂聂",
+  "license": "MIT"
 }

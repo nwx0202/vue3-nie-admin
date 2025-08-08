@@ -1,26 +1,35 @@
 <template>
-  <h1 class="text-3xl">vue3-nie-admin父组件</h1>
-  <el-button type="primary" @click="counterStore.increment">count++</el-button>
-
-  <HelloWorld />
+  <el-config-provider :locale="locale" :size="size">
+    <el-watermark
+      :font="{color: fontColor}"
+      :content="showWatermark ? defaultSettings.watermarkContent : ''"
+      :z-index="9999"
+      class="wh-full">
+      <router-view />
+    </el-watermark>
+  </el-config-provider>
 </template>
 
 <script setup lang="ts">
-import {useCounterStore} from '@/store/counter'
-const counterStore = useCounterStore();
+import { ComponentSize } from './enums/LayoutEnum';
+import { ThemeMode } from './enums/ThemeEnum';
+import { useAppStore } from './store/modules/app';
+import { useSettingsStore } from './store/modules/settings';
+import { defaultSettings } from './settings';
+
+const appStore = useAppStore();
+const settingsStore = useSettingsStore();
+
+const locale = computed(() => appStore.locale);
+const size = computed(() => appStore.size as ComponentSize);
+const showWatermark = computed(() => settingsStore.showWatermark);
+
+// 明亮/暗黑主题水印字体颜色配置
+const fontColor = computed(() => {
+  return settingsStore.theme === ThemeMode.DARK ? 'rgba(255, 255, 255, .15)' : 'rgba(0, 0, 0, .15)';
+});
 </script>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+
 </style>

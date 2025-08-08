@@ -13,6 +13,13 @@ import {createSvgIconsPlugin} from 'vite-plugin-svg-icons';
 
 import UnoCSS from 'unocss/vite';
 
+import { name, version, engines, dependencies, devDependencies } from "./package.json";
+
+const __APP_INFO__ = {
+  pkg: {name, version, engines, dependencies, devDependencies},
+  buildTimestamp: Date.now()
+};
+
 export default defineConfig(({mode}: ConfigEnv): UserConfig => {
   const env = loadEnv(mode, process.cwd());
 
@@ -21,6 +28,8 @@ export default defineConfig(({mode}: ConfigEnv): UserConfig => {
       vue(),
       UnoCSS({}),
       AutoImport({
+        // 导入vue相关函数，如ref、reactive、toRefs等
+        imports: ['vue', '@vueuse/core', 'pinia', 'vue-router', 'vue-i18n'],
         eslintrc: {
           // 是否自动生成eslint规则，建议生成之后设置false
           enabled: true,
@@ -86,5 +95,8 @@ export default defineConfig(({mode}: ConfigEnv): UserConfig => {
         }
       }
     },
+    define: {
+      __APP_INFO__: JSON.stringify(__APP_INFO__),
+    }
   };
 });

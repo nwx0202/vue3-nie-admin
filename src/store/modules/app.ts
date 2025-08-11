@@ -86,3 +86,11 @@ export const useAppStore = defineStore('app', () => {
         toggleSidebar
     }
 });
+
+/**
+ * 用于在组件外部(如在Pinia Store中)使用Pinia提供的Store实例
+ * 官方文档解释了如何在组件外部使用Pinia Store实例
+ */
+export function useAppStoreHook() {
+    return useAppStore();
+}

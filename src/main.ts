@@ -6,5 +6,11 @@ import './style.css';
 import 'virtual:svg-icons-register';
 import 'uno.css';
 import router from '@/router';
+import { setupDirective } from './directive';
+import i18n from './lang';
 
-createApp(App).use(createPinia()).use(router).mount('#app')
+const app = createApp(App);
+// 全局注册自定义指令
+setupDirective(app);
+
+app.use(createPinia()).use(router).use(i18n).mount('#app')
